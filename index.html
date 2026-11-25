@@ -157,6 +157,27 @@
   .copiar:hover { border-color: var(--bordo); }
   .copiar.ok { color: #fff; background: var(--bordo); border-color: var(--bordo); }
 
+  /* ---------- Mensaje ---------- */
+  .mensaje { margin-top: 22px; padding-top: 20px; border-top: 1px solid var(--linea); }
+  .mensaje .banco { margin-top: 0; margin-bottom: 14px; }
+  .campo { display: block; margin-bottom: 12px; }
+  .campo span { display: block; font-size: .72rem; color: var(--tinta-suave); margin-bottom: 5px; }
+  .campo input, .campo textarea {
+    width: 100%; font: 400 .95rem/1.4 "Lato", sans-serif; color: var(--tinta);
+    background: var(--blanco); border: 1px solid var(--linea); padding: 10px 12px;
+    border-radius: 0; transition: border-color .2s;
+  }
+  .campo textarea { min-height: 96px; resize: vertical; }
+  .campo input:focus, .campo textarea:focus { outline: none; border-color: var(--oro); }
+  .honey { position: absolute; left: -9999px; }
+  .enviar { width: 100%; margin-top: 4px; }
+  .enviar:disabled { opacity: .6; cursor: wait; }
+  .estado { margin-top: 10px; font-size: .85rem; text-align: center; color: var(--tinta-suave); min-height: 1.2em; }
+  .estado.error { color: var(--bordo); }
+  .gracias { text-align: center; padding: 14px 0 4px; }
+  .gracias p { font-family: "Cormorant Garamond", Georgia, serif; font-size: 1.35rem; color: var(--bordo); }
+  .gracias svg { color: var(--oro); margin-bottom: 6px; }
+
   @media (max-width: 520px) {
     .hero { min-height: 56vh; }
     .hero::before { inset: 12px; } .hero::after { inset: 18px; }
@@ -233,6 +254,19 @@
     </div>
     <p class="banco">Banco Santander</p>
     <ul class="datos" id="co-datos"></ul>
+
+    <form class="mensaje" id="form-msg" novalidate>
+      <p class="banco">Dejale un mensaje</p>
+      <label class="campo"><span>Nombre</span><input type="text" name="nombre" id="f-nombre" autocomplete="name" maxlength="120" required></label>
+      <label class="campo"><span>Mensaje</span><textarea name="mensaje" id="f-mensaje" maxlength="3000" required></textarea></label>
+      <input class="honey" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <button class="comprar enviar" type="submit" id="f-enviar">Enviar mensaje</button>
+      <p class="estado" id="f-estado" role="status"></p>
+    </form>
+    <div class="gracias" id="gracias" hidden>
+      <svg width="26" height="26" viewBox="0 0 22 22" aria-hidden="true"><path d="M11 1v20M3 8h16" stroke="currentColor" stroke-width="1.6" fill="none"/></svg>
+      <p>¡Gracias! Tu mensaje fue enviado.</p>
+    </div>
   </div>
 </div>
 
@@ -282,6 +316,52 @@
 
   const velo = document.getElementById("velo");
   let origen = null;
+  let actual = "";
+  const DESTINO = "https://formsubmit.co/ajax/pmayololaciregui@gmail.com";
+  const form = document.getElementById("form-msg");
+  const estado = document.getElementById("f-estado");
+  const enviarBtn = document.getElementById("f-enviar");
+  const gracias = document.getElementById("gracias");
+
+  function resetForm() {
+    form.reset(); form.hidden = false; gracias.hidden = true;
+    estado.textContent = ""; estado.classList.remove("error");
+    enviarBtn.disabled = false; enviarBtn.textContent = "Enviar mensaje";
+  }
+
+  form.addEventListener("submit", async e => {
+    e.preventDefault();
+    const nombre = document.getElementById("f-nombre").value.trim();
+    const mensaje = document.getElementById("f-mensaje").value.trim();
+    if (!nombre || !mensaje) {
+      estado.textContent = "Completá tu nombre y el mensaje.";
+      estado.classList.add("error"); return;
+    }
+    if (form._honey.value) return;
+    estado.textContent = ""; estado.classList.remove("error");
+    enviarBtn.disabled = true; enviarBtn.textContent = "Enviando…";
+    try {
+      const r = await fetch(DESTINO, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify({
+          _subject: `Mensaje de ${nombre} – ${actual}`,
+          _template: "table",
+          _captcha: "false",
+          Nombre: nombre,
+          Regalo: actual,
+          Mensaje: mensaje,
+        }),
+      });
+      const d = await r.json().catch(() => ({}));
+      if (!r.ok || d.success === false || d.success === "false") throw new Error(d.message || r.status);
+      form.hidden = true; gracias.hidden = false;
+    } catch (err) {
+      estado.textContent = "No se pudo enviar el mensaje. Probá de nuevo en un momento.";
+      estado.classList.add("error");
+      enviarBtn.disabled = false; enviarBtn.textContent = "Enviar mensaje";
+    }
+  });
 
   function abrir(i, btn) {
     const [img, nombre, , precio] = regalos[i];
@@ -290,6 +370,8 @@
     document.getElementById("co-nombre").textContent = nombre;
     document.getElementById("co-precio").textContent = precio;
     origen = btn;
+    actual = nombre;
+    resetForm();
     velo.classList.add("abierto");
     velo.setAttribute("aria-hidden", "false");
     document.body.classList.add("bloqueado");

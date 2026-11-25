@@ -3,32 +3,22 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
 <title>Regalos de Ordenación</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Lato:wght@400;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --bordo: #6b1424;
-    --bordo-deep: #4a0d18;
-    --oro: #b8954a;
-    --oro-claro: #d9c08a;
-    --blanco: #fdfbf7;
-    --papel: #f6f1e7;
+    --bordo-hover: #84203a;
+    --oro: #b08d45;
+    --oro-suave: #e3d3ad;
+    --blanco: #ffffff;
+    --marfil: #fbf9f5;
     --tinta: #2b1a1d;
-    --tinta-suave: #6e5a5d;
-    --linea: #e6dcc8;
-    --card: #ffffff;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --blanco: #1c1214; --papel: #241719; --tinta: #f3ebe0; --tinta-suave: #c4b4a8;
-      --linea: #3d2a2d; --card: #2a1b1e;
-    }
-  }
-  :root[data-theme="dark"] {
-    --blanco: #1c1214; --papel: #241719; --tinta: #f3ebe0; --tinta-suave: #c4b4a8;
-    --linea: #3d2a2d; --card: #2a1b1e;
+    --tinta-suave: #7a686a;
+    --linea: #eee7da;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -38,33 +28,24 @@
     font-family: "Lato", system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
   }
+  body.bloqueado { overflow: hidden; }
 
   /* ---------- Hero ---------- */
   .hero {
     position: relative;
-    min-height: 78vh;
+    min-height: 72vh;
     display: grid;
     place-items: center;
-    background:
-      radial-gradient(ellipse at 50% 40%, #84203a 0%, var(--bordo) 45%, var(--bordo-deep) 100%);
-    overflow: hidden;
+    background: radial-gradient(ellipse at 50% 45%, #ffffff 0%, var(--marfil) 70%, #f5f0e6 100%);
   }
-  .hero::before {
-    content: "";
-    position: absolute; inset: 22px;
-    border: 1px solid rgba(217,192,138,.45);
-    pointer-events: none;
+  .hero::before, .hero::after {
+    content: ""; position: absolute; pointer-events: none;
   }
-  .hero::after {
-    content: "";
-    position: absolute; inset: 30px;
-    border: 1px solid rgba(217,192,138,.18);
-    pointer-events: none;
-  }
+  .hero::before { inset: 22px; border: 1px solid var(--oro); opacity: .55; }
+  .hero::after  { inset: 30px; border: 1px solid var(--oro); opacity: .22; }
   .emblem {
-    width: min(220px, 52vw);
+    width: min(200px, 48vw);
     height: auto;
-    filter: drop-shadow(0 6px 24px rgba(0,0,0,.35));
     animation: aparecer 1.6s ease-out both;
   }
   @keyframes aparecer { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
@@ -72,7 +53,7 @@
 
   .ornamento {
     display: flex; align-items: center; justify-content: center; gap: 14px;
-    margin: 64px auto 40px; color: var(--oro);
+    margin: 56px auto 40px; color: var(--oro);
   }
   .ornamento span { height: 1px; width: min(120px, 25vw); background: linear-gradient(90deg, transparent, var(--oro)); }
   .ornamento span:last-child { transform: scaleX(-1); }
@@ -86,78 +67,122 @@
     gap: 28px;
   }
   .item {
-    background: var(--card);
+    background: var(--blanco);
     border: 1px solid var(--linea);
-    border-top: 3px solid var(--oro);
     display: flex; flex-direction: column;
-    transition: transform .25s ease, box-shadow .25s ease;
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s;
   }
-  .item:hover { transform: translateY(-3px); box-shadow: 0 14px 30px -18px rgba(74,13,24,.45); }
+  .item:hover { transform: translateY(-3px); border-color: var(--oro-suave); box-shadow: 0 16px 32px -22px rgba(107,20,36,.35); }
   .foto {
-    background: #fff;
     aspect-ratio: 1 / 1;
     display: grid; place-items: center;
-    border-bottom: 1px solid var(--linea);
     padding: 18px;
   }
   .foto img { max-width: 100%; max-height: 100%; object-fit: contain; }
-  .info { padding: 20px 20px 22px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+  .info { padding: 4px 20px 22px; display: flex; flex-direction: column; gap: 8px; flex: 1; text-align: center; }
   .info h2 {
     font-family: "Cormorant Garamond", Georgia, serif;
-    font-weight: 600; font-size: 1.45rem; line-height: 1.15;
+    font-weight: 600; font-size: 1.4rem; line-height: 1.15;
     color: var(--bordo);
   }
-  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .info h2 { color: var(--oro-claro); } }
-  :root[data-theme="dark"] .info h2 { color: var(--oro-claro); }
-  .info p { font-size: .88rem; line-height: 1.5; color: var(--tinta-suave); margin-bottom: 10px; }
-  .pie {
-    display: flex; align-items: center; justify-content: space-between; gap: 12px;
-    margin-top: auto; padding-top: 14px; border-top: 1px solid var(--linea);
-  }
+  .info p { font-size: .86rem; line-height: 1.5; color: var(--tinta-suave); margin-bottom: 8px; }
   .precio {
+    margin-top: auto;
     font-family: "Cormorant Garamond", Georgia, serif;
-    font-size: 1.35rem; font-weight: 600; color: var(--oro);
+    font-size: 1.3rem; font-weight: 600; color: var(--oro);
     font-variant-numeric: lining-nums tabular-nums;
   }
-  .ver {
-    font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; font-weight: 700;
-    color: var(--bordo); text-decoration: none;
-    border: 1px solid var(--bordo); padding: 8px 12px;
+  .comprar {
+    margin-top: 10px;
+    font: 700 .74rem/1 "Lato", sans-serif; letter-spacing: .16em; text-transform: uppercase;
+    color: var(--bordo); background: transparent;
+    border: 1px solid var(--bordo); padding: 13px 14px;
+    cursor: pointer;
     transition: background .2s, color .2s;
   }
-  .ver:hover, .ver:focus-visible { background: var(--bordo); color: #fff; }
-  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .ver { color: var(--oro-claro); border-color: var(--oro); } }
-  :root[data-theme="dark"] .ver { color: var(--oro-claro); border-color: var(--oro); }
+  .comprar:hover, .comprar:focus-visible { background: var(--bordo); color: #fff; outline: none; }
 
-  footer { height: 10px; background: linear-gradient(90deg, var(--bordo-deep), var(--bordo), var(--bordo-deep)); border-top: 2px solid var(--oro); }
+  footer { height: 4px; background: var(--oro); opacity: .6; }
+
+  /* ---------- Checkout ---------- */
+  .velo {
+    position: fixed; inset: 0; z-index: 10;
+    background: rgba(43,26,29,.35);
+    backdrop-filter: blur(3px);
+    display: grid; place-items: center;
+    padding: 16px;
+    opacity: 0; pointer-events: none;
+    transition: opacity .25s ease;
+  }
+  .velo.abierto { opacity: 1; pointer-events: auto; }
+  .checkout {
+    position: relative;
+    width: 100%; max-width: 460px; max-height: calc(100vh - 32px); overflow-y: auto;
+    background: var(--blanco);
+    border-top: 3px solid var(--oro);
+    padding: 32px 28px 28px;
+    box-shadow: 0 30px 60px -20px rgba(43,26,29,.4);
+    transform: translateY(10px); transition: transform .25s ease;
+  }
+  .velo.abierto .checkout { transform: none; }
+  .cerrar {
+    position: absolute; top: 10px; right: 10px;
+    width: 36px; height: 36px; border: 0; background: transparent;
+    color: var(--tinta-suave); font-size: 1.5rem; line-height: 1; cursor: pointer;
+  }
+  .cerrar:hover { color: var(--bordo); }
+  .resumen { display: flex; align-items: center; gap: 16px; padding-bottom: 20px; border-bottom: 1px solid var(--linea); }
+  .resumen img { width: 72px; height: 72px; object-fit: contain; border: 1px solid var(--linea); padding: 6px; flex-shrink: 0; }
+  .resumen h3 { font-family: "Cormorant Garamond", Georgia, serif; font-size: 1.35rem; font-weight: 600; color: var(--bordo); line-height: 1.15; }
+  .resumen .precio { display: block; margin-top: 4px; font-size: 1.2rem; }
+  .banco {
+    margin: 20px 0 6px;
+    font: 700 .72rem/1 "Lato", sans-serif; letter-spacing: .16em; text-transform: uppercase; color: var(--oro);
+  }
+  .datos { list-style: none; }
+  .datos li {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    padding: 12px 0; border-bottom: 1px solid var(--linea);
+  }
+  .datos li:last-child { border-bottom: 0; }
+  .datos .etq { display: block; font-size: .72rem; color: var(--tinta-suave); margin-bottom: 3px; }
+  .datos .val { display: block; font-size: .95rem; font-weight: 700; color: var(--tinta); word-break: break-word; font-variant-numeric: tabular-nums; }
+  .copiar {
+    flex-shrink: 0;
+    font: 700 .66rem/1 "Lato", sans-serif; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--bordo); background: var(--marfil);
+    border: 1px solid var(--linea); padding: 8px 10px; cursor: pointer;
+    min-width: 76px;
+  }
+  .copiar:hover { border-color: var(--bordo); }
+  .copiar.ok { color: #fff; background: var(--bordo); border-color: var(--bordo); }
 
   @media (max-width: 520px) {
-    .hero { min-height: 62vh; }
+    .hero { min-height: 56vh; }
     .hero::before { inset: 12px; } .hero::after { inset: 18px; }
     .grid { grid-template-columns: 1fr 1fr; gap: 14px; }
     .foto { padding: 10px; }
-    .info { padding: 14px; }
-    .info h2 { font-size: 1.2rem; }
-    .info p { font-size: .8rem; }
-    .pie { flex-direction: column; align-items: flex-start; }
+    .info { padding: 2px 12px 14px; }
+    .info h2 { font-size: 1.15rem; }
+    .info p { font-size: .78rem; }
+    .comprar { padding: 11px 8px; letter-spacing: .12em; }
+    .checkout { padding: 28px 20px 20px; }
   }
 </style>
 </head>
 <body>
 
 <header class="hero" aria-label="Ordenación">
-  <!-- Emblema: cáliz con hostia, en dorado -->
   <svg class="emblem" viewBox="0 0 200 240" role="img" aria-label="Cáliz y hostia">
     <defs>
       <linearGradient id="oro" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0" stop-color="#f1dfae"/>
-        <stop offset=".45" stop-color="#c9a65a"/>
-        <stop offset="1" stop-color="#8f6d2c"/>
+        <stop offset="0" stop-color="#d9bf82"/>
+        <stop offset=".5" stop-color="#b08d45"/>
+        <stop offset="1" stop-color="#8a6a2c"/>
       </linearGradient>
     </defs>
-    <g fill="none" stroke="url(#oro)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-      <!-- rayos -->
-      <g stroke-width="1.2" opacity=".75">
+    <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <g stroke="url(#oro)" stroke-width="1.2" opacity=".8">
         <line x1="100" y1="6" x2="100" y2="22"/>
         <line x1="62" y1="16" x2="70" y2="30"/>
         <line x1="138" y1="16" x2="130" y2="30"/>
@@ -166,20 +191,20 @@
         <line x1="26" y1="72" x2="42" y2="72"/>
         <line x1="174" y1="72" x2="158" y2="72"/>
       </g>
-      <!-- hostia -->
-      <circle cx="100" cy="66" r="34"/>
-      <circle cx="100" cy="66" r="28" stroke-width="1"/>
-      <path d="M100 46 V86 M84 62 H116" stroke-width="2.6"/>
-      <!-- copa -->
-      <path d="M52 104 H148 C148 138 128 160 100 162 C72 160 52 138 52 104 Z" fill="url(#oro)" fill-opacity=".14"/>
-      <path d="M60 116 H140" stroke-width="1" opacity=".7"/>
-      <!-- nudo y astil -->
-      <path d="M100 162 V178"/>
-      <ellipse cx="100" cy="184" rx="11" ry="6"/>
-      <path d="M100 190 V204"/>
-      <!-- base -->
-      <path d="M100 204 C88 212 70 218 62 228 H138 C130 218 112 212 100 204 Z" fill="url(#oro)" fill-opacity=".14"/>
-      <path d="M56 232 H144"/>
+      <g stroke="url(#oro)" stroke-width="2.4">
+        <circle cx="100" cy="66" r="34"/>
+        <circle cx="100" cy="66" r="28" stroke-width="1"/>
+      </g>
+      <path d="M100 46 V86 M84 62 H116" stroke="#6b1424" stroke-width="2.6"/>
+      <g stroke="url(#oro)" stroke-width="2.4">
+        <path d="M52 104 H148 C148 138 128 160 100 162 C72 160 52 138 52 104 Z" fill="#b08d45" fill-opacity=".08"/>
+        <path d="M60 116 H140" stroke-width="1" opacity=".7"/>
+        <path d="M100 162 V178"/>
+        <ellipse cx="100" cy="184" rx="11" ry="6"/>
+        <path d="M100 190 V204"/>
+        <path d="M100 204 C88 212 70 218 62 228 H138 C130 218 112 212 100 204 Z" fill="#b08d45" fill-opacity=".08"/>
+        <path d="M56 232 H144"/>
+      </g>
     </g>
   </svg>
 </header>
@@ -191,113 +216,118 @@
 </div>
 
 <main>
-  <ul class="grid">
-    <li class="item">
-      <div class="foto"><img src="img/crismera.jpg" alt="Crismera" loading="lazy"></div>
-      <div class="info">
-        <h2>Crismera</h2>
-        <p>Pequeño recipiente con el óleo de los enfermos para administrar el sacramento de la extremaunción.</p>
-        <div class="pie"><span class="precio">$ 131.500</span><a class="ver" href="https://propagadorcristiano.com.ar/producto/crismera-de-metal-niquelada-a-rosca-triple-9cm/" target="_blank" rel="noopener">Ver</a></div>
-      </div>
-    </li>
-    <li class="item">
-      <div class="foto"><img src="img/bolso.jpg" alt="Bolso visita de enfermos" loading="lazy"></div>
-      <div class="info">
-        <h2>Bolso visita de enfermos</h2>
-        <p>Bolso de mano para guardar lo necesario en las visitas de enfermos.</p>
-        <div class="pie"><span class="precio">$ 50.000</span></div>
-      </div>
-    </li>
-    <li class="item">
-      <div class="foto"><img src="img/candelabro.jpg" alt="Candelabros pequeños" loading="lazy"></div>
-      <div class="info">
-        <h2>Candelabros pequeños</h2>
-        <p>Dos candeleros de bronce para colocar las velas encendidas en la comunión de los enfermos.</p>
-        <div class="pie"><span class="precio">U$ 50</span></div>
-      </div>
-    </li>
-    <li class="item">
-      <div class="foto"><img src="img/lienzos.jpg" alt="Lienzos de comunión" loading="lazy"></div>
-      <div class="info">
-        <h2>Lienzos de comunión</h2>
-        <p>Lienzos de lino para purificación en la comunión de los enfermos.</p>
-        <div class="pie"><span class="precio">U$ 25</span></div>
-      </div>
-    </li>
-    <li class="item">
-      <div class="foto"><img src="img/teca.jpg" alt="Teca" loading="lazy"></div>
-      <div class="info">
-        <h2>Teca</h2>
-        <p>Cajita dorada para transportar el Santísimo Sacramento en la visita a los enfermos.</p>
-        <div class="pie"><span class="precio">$ 92.000</span><a class="ver" href="https://propagadorcristiano.com.ar/producto/teca-tipo-reloj-c-bano-oro-15x5cm-p-aprox-10-hostias/" target="_blank" rel="noopener">Ver</a></div>
-      </div>
-    </li>
-    <li class="item">
-      <div class="foto"><img src="img/caliz.jpg" alt="Dorado del cáliz" loading="lazy"></div>
-      <div class="info">
-        <h2>Dorado del cáliz</h2>
-        <p>El cáliz debe ser dorado para poder ser consagrado por el obispo y utilizado en la Santa Misa.</p>
-        <div class="pie"><span class="precio">U$ 1.000</span></div>
-      </div>
-    </li>
-    <li class="item">
-      <div class="foto"><img src="img/aspersorio.jpg" alt="Aspersorio móvil" loading="lazy"></div>
-      <div class="info">
-        <h2>Aspersorio móvil</h2>
-        <p>Pequeño recipiente para asperjar agua bendita en las bendiciones.</p>
-        <div class="pie"><span class="precio">$ 79.000</span><a class="ver" href="https://propagadorcristiano.com.ar/producto/aspersorio-niquelado-9cm/" target="_blank" rel="noopener">Ver</a></div>
-      </div>
-    </li>
-    <li class="item">
-      <div class="foto"><img src="img/funda.jpg" alt="Funda de breviario" loading="lazy"></div>
-      <div class="info">
-        <h2>Funda de breviario</h2>
-        <p>Funda de cuero para proteger el libro del Breviario.</p>
-        <div class="pie"><span class="precio">U$ 25</span></div>
-      </div>
-    </li>
-    <li class="item">
-      <div class="foto"><img src="img/misal.jpg" alt="Misal de viaje" loading="lazy"></div>
-      <div class="info">
-        <h2>Misal de viaje</h2>
-        <p>Libro para la celebración de la Santa Misa.</p>
-        <div class="pie"><span class="precio">U$ 220</span></div>
-      </div>
-    </li>
-    <li class="item">
-      <div class="foto"><img src="img/manteles.jpg" alt="Manteles de altar" loading="lazy"></div>
-      <div class="info">
-        <h2>Manteles de altar</h2>
-        <p>Juego de tres manteles de lino para cubrir el altar de la Santa Misa.</p>
-        <div class="pie"><span class="precio">$ 35.000</span></div>
-      </div>
-    </li>
-    <li class="item">
-      <div class="foto"><img src="img/corporal.jpg" alt="Corporal griego" loading="lazy"></div>
-      <div class="info">
-        <h2>Corporal griego</h2>
-        <p>Lienzo donde se colocan las reliquias para celebrar la Santa Misa.</p>
-        <div class="pie"><span class="precio">U$ 16</span></div>
-      </div>
-    </li>
-    <li class="item">
-      <div class="foto"><img src="img/ebook.jpg" alt="E-book" loading="lazy"></div>
-      <div class="info">
-        <h2>E-book</h2>
-        <p>Libro digital para los estudios sacerdotales.</p>
-        <div class="pie"><span class="precio">$ 400.000</span><a class="ver" href="https://www.mercadolibre.com.ar/amazon-kindle-paperwhite-7-2024-12-gen-16-gb-color-negro/p/MLA44622587" target="_blank" rel="noopener">Ver</a></div>
-      </div>
-    </li>
-    <li class="item">
-      <div class="foto"><img src="img/notebook.jpg" alt="Computadora portátil" loading="lazy"></div>
-      <div class="info">
-        <h2>Computadora portátil</h2>
-        <div class="pie"><span class="precio">U$ 500</span><a class="ver" href="https://www.amazon.com/dp/B0FW4T8H2P" target="_blank" rel="noopener">Ver</a></div>
-      </div>
-    </li>
-  </ul>
+  <ul class="grid" id="lista"></ul>
 </main>
 
 <footer></footer>
+
+<div class="velo" id="velo" aria-hidden="true">
+  <div class="checkout" role="dialog" aria-modal="true" aria-labelledby="co-nombre">
+    <button class="cerrar" id="cerrar" aria-label="Cerrar">&times;</button>
+    <div class="resumen">
+      <img id="co-img" alt="">
+      <div>
+        <h3 id="co-nombre"></h3>
+        <span class="precio" id="co-precio"></span>
+      </div>
+    </div>
+    <p class="banco">Banco Santander</p>
+    <ul class="datos" id="co-datos"></ul>
+  </div>
+</div>
+
+<script>
+  const regalos = [
+    ["crismera",   "Crismera",                 "Pequeño recipiente con el óleo de los enfermos para administrar el sacramento de la extremaunción.", "$ 131.500"],
+    ["bolso",      "Bolso visita de enfermos", "Bolso de mano para guardar lo necesario en las visitas de enfermos.", "$ 50.000"],
+    ["candelabro", "Candelabros pequeños",     "Dos candeleros de bronce para colocar las velas encendidas en la comunión de los enfermos.", "U$ 50"],
+    ["lienzos",    "Lienzos de comunión",      "Lienzos de lino para purificación en la comunión de los enfermos.", "U$ 25"],
+    ["teca",       "Teca",                     "Cajita dorada para transportar el Santísimo Sacramento en la visita a los enfermos.", "$ 92.000"],
+    ["caliz",      "Dorado del cáliz",         "El cáliz debe ser dorado para poder ser consagrado por el obispo y utilizado en la Santa Misa.", "U$ 1.000"],
+    ["aspersorio", "Aspersorio móvil",         "Pequeño recipiente para asperjar agua bendita en las bendiciones.", "$ 79.000"],
+    ["funda",      "Funda de breviario",       "Funda de cuero para proteger el libro del Breviario.", "U$ 25"],
+    ["misal",      "Misal de viaje",           "Libro para la celebración de la Santa Misa.", "U$ 220"],
+    ["manteles",   "Manteles de altar",        "Juego de tres manteles de lino para cubrir el altar de la Santa Misa.", "$ 35.000"],
+    ["corporal",   "Corporal griego",          "Lienzo donde se colocan las reliquias para celebrar la Santa Misa.", "U$ 16"],
+    ["ebook",      "E-book",                   "Libro digital para los estudios sacerdotales.", "$ 400.000"],
+    ["notebook",   "Computadora portátil",     "", "U$ 500"],
+  ];
+
+  const cuenta = [
+    ["Número de cuenta",     "CAJA DE AHORRO EN PESOS 801-352875/6", "801-352875/6"],
+    ["Número de CBU",        "0720801888000035287568"],
+    ["Alias",                "juan.maria.mayol"],
+    ["Titular de la cuenta", "JUAN MARIA MAYOL OLACIREGUI"],
+    ["Documento",            "CUIT 20-40640676-9", "20406406769"],
+  ];
+
+  const esc = s => s.replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+  document.getElementById("lista").innerHTML = regalos.map(([img, nombre, desc, precio], i) => `
+    <li class="item">
+      <div class="foto"><img src="img/${img}.jpg" alt="${esc(nombre)}" loading="lazy"></div>
+      <div class="info">
+        <h2>${esc(nombre)}</h2>
+        ${desc ? `<p>${esc(desc)}</p>` : ""}
+        <span class="precio">${esc(precio)}</span>
+        <button class="comprar" data-i="${i}">Comprar</button>
+      </div>
+    </li>`).join("");
+
+  document.getElementById("co-datos").innerHTML = cuenta.map(([etq, val, copia]) => `
+    <li>
+      <div><span class="etq">${esc(etq)}</span><span class="val">${esc(val)}</span></div>
+      <button class="copiar" data-copia="${esc(copia || val)}">Copiar</button>
+    </li>`).join("");
+
+  const velo = document.getElementById("velo");
+  let origen = null;
+
+  function abrir(i, btn) {
+    const [img, nombre, , precio] = regalos[i];
+    document.getElementById("co-img").src = `img/${img}.jpg`;
+    document.getElementById("co-img").alt = nombre;
+    document.getElementById("co-nombre").textContent = nombre;
+    document.getElementById("co-precio").textContent = precio;
+    origen = btn;
+    velo.classList.add("abierto");
+    velo.setAttribute("aria-hidden", "false");
+    document.body.classList.add("bloqueado");
+    document.getElementById("cerrar").focus();
+  }
+  function cerrar() {
+    velo.classList.remove("abierto");
+    velo.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("bloqueado");
+    if (origen) origen.focus();
+  }
+
+  document.getElementById("lista").addEventListener("click", e => {
+    const b = e.target.closest(".comprar");
+    if (b) abrir(+b.dataset.i, b);
+  });
+  document.getElementById("cerrar").addEventListener("click", cerrar);
+  velo.addEventListener("click", e => { if (e.target === velo) cerrar(); });
+  document.addEventListener("keydown", e => { if (e.key === "Escape" && velo.classList.contains("abierto")) cerrar(); });
+
+  async function copiarTexto(t) {
+    try { await navigator.clipboard.writeText(t); return true; }
+    catch {
+      const ta = document.createElement("textarea");
+      ta.value = t; ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.select();
+      let ok = false; try { ok = document.execCommand("copy"); } catch {}
+      ta.remove(); return ok;
+    }
+  }
+  document.getElementById("co-datos").addEventListener("click", async e => {
+    const b = e.target.closest(".copiar");
+    if (!b) return;
+    if (await copiarTexto(b.dataset.copia)) {
+      b.textContent = "Copiado"; b.classList.add("ok");
+      setTimeout(() => { b.textContent = "Copiar"; b.classList.remove("ok"); }, 1600);
+    }
+  });
+</script>
 </body>
 </html>

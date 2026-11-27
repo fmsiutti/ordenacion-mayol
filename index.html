@@ -238,11 +238,12 @@
     <p class="banco">Banco Santander</p>
     <ul class="datos" id="co-datos"></ul>
 
-    <form class="mensaje" id="form-msg" novalidate>
+    <form class="mensaje" id="form-msg" action="https://api.web3forms.com/submit" method="POST" novalidate>
+      <input type="hidden" name="access_key" value="41697a0b-5939-4b0c-9f91-e5d6d0370000">
       <p class="banco">Dejale un mensaje a Pedro</p>
       <label class="campo"><span>Nombre</span><input type="text" name="nombre" id="f-nombre" autocomplete="name" maxlength="120" required></label>
       <label class="campo"><span>Mensaje</span><textarea name="mensaje" id="f-mensaje" maxlength="3000" required></textarea></label>
-      <input class="honey" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <input class="honey" type="text" name="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true">
       <button class="comprar enviar" type="submit" id="f-enviar">Enviar mensaje</button>
       <p class="estado" id="f-estado" role="status"></p>
     </form>
@@ -300,8 +301,8 @@
   const velo = document.getElementById("velo");
   let origen = null;
   let actual = "";
-  const DESTINO = "https://formsubmit.co/ajax/felisiutti@gmail.com";
   const form = document.getElementById("form-msg");
+  const DESTINO = form.action;
   const estado = document.getElementById("f-estado");
   const enviarBtn = document.getElementById("f-enviar");
   const gracias = document.getElementById("gracias");
@@ -320,7 +321,7 @@
       estado.textContent = "Completá tu nombre y el mensaje.";
       estado.classList.add("error"); return;
     }
-    if (form._honey.value) return;
+    if (form.botcheck.value) return;
     estado.textContent = ""; estado.classList.remove("error");
     enviarBtn.disabled = true; enviarBtn.textContent = "Enviando…";
     try {
@@ -328,9 +329,9 @@
         method: "POST",
         headers: { "Content-Type": "application/json", "Accept": "application/json" },
         body: JSON.stringify({
-          _subject: `Mensaje de ${nombre} – ${actual}`,
-          _template: "table",
-          _captcha: "false",
+          access_key: form.access_key.value,
+          subject: `Mensaje de ${nombre} – ${actual}`,
+          from_name: "Regalos de Ordenación",
           Nombre: nombre,
           Regalo: actual,
           Mensaje: mensaje,
